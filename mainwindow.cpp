@@ -1,6 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "addbusdialog.h"
+#include "addlocationdialog.h"
 #include <QDebug>
+#include "database.h"
+#include <string>
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +13,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setBusList();
+    Database a;
+
+    // example of using the database
+//    a.createBusTable();
+//    a.createLocTable();
+//    a.insertLocation("Dhaka");
+//    a.disconnect();
 }
 
 MainWindow::~MainWindow()
@@ -46,4 +58,20 @@ void MainWindow::on_busList_cellDoubleClicked(int row, int column)
 void MainWindow::on_actionExit_triggered()
 {
     MainWindow::close();
+}
+
+// launch the window to add new bus
+void MainWindow::on_btnAdd_bus_clicked()
+{
+    AddBusDialog ab;
+    ab.setModal(true);
+    ab.exec();
+}
+
+// launch the window to add new locations
+void MainWindow::on_btnAdd_loc_clicked()
+{
+    AddLocationDialog al;
+    al.setModal(true);
+    al.exec();
 }

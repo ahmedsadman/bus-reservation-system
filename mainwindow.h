@@ -20,6 +20,10 @@ private slots:
 
     void on_actionExit_triggered();
 
+    void on_btnAdd_bus_clicked();
+
+    void on_btnAdd_loc_clicked();
+
 private:
     Ui::MainWindow *ui;
     void MainWindow::setBusList();

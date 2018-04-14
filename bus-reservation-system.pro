@@ -25,10 +25,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    addbusdialog.cpp \
+    addlocationdialog.cpp \
+    database.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    addbusdialog.h \
+    addlocationdialog.h \
+    database.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    addbusdialog.ui \
+    addlocationdialog.ui
+
+win32:CONFIG(release, debug|release): LIBS += -LC:/Qt/Qt5.10.1/5.10.1/msvc2015/lib/ -lQt5Sql
+else:win32:CONFIG(debug, debug|release): LIBS += -LC:/Qt/Qt5.10.1/5.10.1/msvc2015/lib/ -lQt5Sqld
+else:unix: LIBS += -LC:/Qt/Qt5.10.1/5.10.1/msvc2015/lib/ -lQt5Sql
+
+INCLUDEPATH += C:/Qt/Qt5.10.1/5.10.1/msvc2015/include
+DEPENDPATH += C:/Qt/Qt5.10.1/5.10.1/msvc2015/include
