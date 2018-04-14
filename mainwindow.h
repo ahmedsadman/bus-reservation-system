@@ -18,6 +18,8 @@ public:
 private slots:
     void on_busList_cellDoubleClicked(int row, int column);
 
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
     void MainWindow::setBusList();
