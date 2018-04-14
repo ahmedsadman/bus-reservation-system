@@ -51,7 +51,7 @@ void Database::createBusTable() {
 
 // create the location table (required for origin/desination)
 void Database::createLocTable() {
-    qDebug() << "Creating bus table";
+    qDebug() << "Creating LOCATIONS table";
     QSqlQuery query;
     query.prepare("CREATE TABLE IF NOT EXISTS LOCATIONS (LOCNAME TEXT PRIMARY KEY)");
 
