@@ -13,18 +13,32 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setBusList();
-    Database a;
-
-    // example of using the database
-//    a.createBusTable();
-//    a.createLocTable();
-//    a.insertLocation("Dhaka");
-//    a.disconnect();
+    this->setLocationList();
 }
 
 MainWindow::~MainWindow()
 {
+    Database *db = Database::getInstance();
+    db->disconnect();
     delete ui;
+}
+
+// Initiate the Locations list with data
+void MainWindow::setLocationList() {
+    Database* db = Database::getInstance();
+    db->getLocations(); // populates location data
+
+
+    QStringList labels;
+    labels << tr("Locations");
+    ui->locList_manage->setColumnCount(1);
+    ui->locList_manage->setHorizontalHeaderLabels(labels);
+    ui->locList_manage->clearContents();
+
+    for (int i = 0; i < db->locations.size(); i++) {
+        ui->locList_manage->setRowCount(i+1);
+        ui->locList_manage->setItem(i, 0, new QTableWidgetItem(db->locations[i]));
+    }
 }
 
 // Initiate the busList based on user data
@@ -72,6 +86,28 @@ void MainWindow::on_btnAdd_bus_clicked()
 void MainWindow::on_btnAdd_loc_clicked()
 {
     AddLocationDialog al;
+    Database* db = Database::getInstance();
     al.setModal(true);
-    al.exec();
+
+    if (al.exec() == QDialog::Accepted) {
+        db->insertLocation(al.getVal());
+        this->setLocationList();
+    }
+}
+
+
+// remove location record on button click
+void MainWindow::on_btnRemove_loc_clicked()
+{
+    QModelIndexList indexes = ui->locList_manage->selectionModel()->selection().indexes();
+    Database *db = Database::getInstance();
+
+    if (indexes.count() > 0) {
+        QModelIndex index = indexes.at(0);
+        QString locname = ui->locList_manage->item(index.row(), 0)->text();
+        db->removeLoc(locname); // also remove from database
+        ui->locList_manage->removeRow(index.row());
+        qDebug() << locname;
+    }
+
 }

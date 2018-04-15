@@ -4,6 +4,8 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 
+Database* Database::instance = 0;
+
 Database::Database()
 {
     dbpath = QString("database.db");
@@ -11,8 +13,14 @@ Database::Database()
 }
 
 Database::~Database() {
-    if (db.isOpen())
-        disconnect();
+    disconnect();
+    delete instance;
+}
+
+Database* Database::getInstance() {
+    if (instance == 0)
+        instance = new Database();
+    return instance;
 }
 
 // connect with the database
@@ -30,8 +38,11 @@ void Database::connect() {
 
 // disconnect from database, must be called when database operation completes
 void Database::disconnect() {
-    db.close();
-    qDebug() << "Database disconnected";
+    if (db.isOpen()) {
+        db.close();
+        qDebug() << "Database disconnected";
+    }
+
 }
 
 
@@ -73,4 +84,29 @@ void Database::insertLocation(QString locname) {
         qDebug() << "ERROR: " << query.lastError().text();
     else
         qDebug() << "location " << locname << " inserted";
+}
+
+
+
+// load location
+void Database::getLocations() {
+    QSqlQuery query;
+    query.prepare("SELECT * FROM LOCATIONS ORDER BY LOCNAME");
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    while (query.next())
+        locations.append(query.value(0).toString());
+}
+
+
+// delete a location record
+void Database::removeLoc(QString locname) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM LOCATIONS WHERE LOCNAME = ?");
+    query.addBindValue(locname);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
 }

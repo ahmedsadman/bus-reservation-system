@@ -12,3 +12,12 @@ AddLocationDialog::~AddLocationDialog()
 {
     delete ui;
 }
+
+QString AddLocationDialog::getVal() {
+    return ui->lineEdit->text();
+}
+
+void AddLocationDialog::on_pushButton_clicked()
+{
+    AddLocationDialog::accept();
+}
