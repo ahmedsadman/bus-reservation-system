@@ -13,7 +13,7 @@ public:
     void createLocTable();
     void insertLocation(QString locname);
     void getLocations();
-    void getBus(bus a);
+    void inserBus(bus a);
     void removeLoc(QString locname);
 
     QVector<QString> locations;
