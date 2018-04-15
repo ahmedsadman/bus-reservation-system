@@ -59,6 +59,23 @@ void Database::createBusTable() {
 
 }
 
+//Inserting Bus
+void Database::insertBus(Bus a) {
+    QSqlQuery query;
+    query.prepare("INSERT INTO BUS VALUES(?, ?, ?, ?)");
+    query.addBindValue(a.busname);
+    query.addBindValue(a.origin);
+    query.addBindValue(a.dest);
+    query.addBindValue(a.type);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+    else
+        {
+            qDebug() << "Bus " << a.busname << " created";
+        }
+}
+
 
 // create the location table (required for origin/desination)
 void Database::createLocTable() {
