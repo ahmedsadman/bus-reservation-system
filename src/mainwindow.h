@@ -24,9 +24,12 @@ private slots:
 
     void on_btnAdd_loc_clicked();
 
+    void on_btnRemove_loc_clicked();
+
 private:
     Ui::MainWindow *ui;
     void MainWindow::setBusList();
+    void MainWindow::setLocationList();
 };
 
 #endif // MAINWINDOW_H

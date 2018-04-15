@@ -2,6 +2,7 @@
 #define ADDBUSDIALOG_H
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 class AddBusDialog;

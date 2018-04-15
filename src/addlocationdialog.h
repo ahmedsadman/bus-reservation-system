@@ -2,6 +2,7 @@
 #define ADDLOCATIONDIALOG_H
 
 #include <QDialog>
+#include <QString>
 
 namespace Ui {
 class AddLocationDialog;
@@ -13,7 +14,11 @@ class AddLocationDialog : public QDialog
 
 public:
     explicit AddLocationDialog(QWidget *parent = 0);
+    QString getVal();
     ~AddLocationDialog();
+
+private slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::AddLocationDialog *ui;
