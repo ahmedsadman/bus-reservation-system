@@ -56,7 +56,7 @@
        <string>From</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="comboFrom">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -87,7 +87,7 @@
        <string>To</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_2">
+     <widget class="QComboBox" name="comboTo">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -156,7 +156,7 @@
        <string>Bus Type</string>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox_4">
+     <widget class="QComboBox" name="comboType">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -302,6 +302,11 @@
         <width>511</width>
         <height>141</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>9</pointsize>
+       </font>
       </property>
       <property name="editTriggers">
        <set>QAbstractItemView::NoEditTriggers</set>

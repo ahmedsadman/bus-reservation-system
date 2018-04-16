@@ -9,12 +9,8 @@ Database* Database::instance = 0;
 Database::Database()
 {
     dbpath = QString("database.db");
+    bus_types = (QStringList() << "AC" << "Non-AC");
     connect();
-}
-
-Database::~Database() {
-    disconnect();
-    delete instance;
 }
 
 Database* Database::getInstance() {
@@ -152,6 +148,7 @@ void Database::insertLocation(QString locname) {
 // load location
 void Database::getLocations() {
     QSqlQuery query;
+    locations.clear();
     query.prepare("SELECT * FROM LOCATIONS ORDER BY LOCNAME");
 
     if (!query.exec())
