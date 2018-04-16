@@ -12,22 +12,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    db = Database::getInstance();
     this->setBusList();
     this->setLocationList();
+    ui->dateEdit->setDate(QDate::currentDate());
+    ui->comboType->insertItems(0, db->bus_types);
 }
 
 MainWindow::~MainWindow()
 {
-    Database *db = Database::getInstance();
     db->disconnect();
     delete ui;
 }
 
-// Initiate the Locations list with data
+// Initiate the Locations and From/To fields with data
 void MainWindow::setLocationList() {
-    Database* db = Database::getInstance();
     db->getLocations(); // populates location data
-
 
     QStringList labels;
     labels << tr("Locations");
@@ -39,6 +39,12 @@ void MainWindow::setLocationList() {
         ui->locList_manage->setRowCount(i+1);
         ui->locList_manage->setItem(i, 0, new QTableWidgetItem(db->locations[i]));
     }
+
+    // populate the From and To Comboboxes
+    ui->comboFrom->clear();
+    ui->comboFrom->insertItems(0, db->locations);
+    ui->comboTo->clear();
+    ui->comboTo->insertItems(0, db->locations);
 }
 
 // Initiate the busList based on user data
@@ -86,7 +92,6 @@ void MainWindow::on_btnAdd_bus_clicked()
 void MainWindow::on_btnAdd_loc_clicked()
 {
     AddLocationDialog al;
-    Database* db = Database::getInstance();
     al.setModal(true);
 
     if (al.exec() == QDialog::Accepted) {
@@ -100,13 +105,13 @@ void MainWindow::on_btnAdd_loc_clicked()
 void MainWindow::on_btnRemove_loc_clicked()
 {
     QModelIndexList indexes = ui->locList_manage->selectionModel()->selection().indexes();
-    Database *db = Database::getInstance();
 
     if (indexes.count() > 0) {
         QModelIndex index = indexes.at(0);
         QString locname = ui->locList_manage->item(index.row(), 0)->text();
         db->removeLoc(locname); // also remove from database
-        ui->locList_manage->removeRow(index.row());
+        // ui->locList_manage->removeRow(index.row());
+        this->setLocationList();
         qDebug() << locname;
     }
 

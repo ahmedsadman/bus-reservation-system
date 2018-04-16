@@ -2,6 +2,7 @@
 #define DATABASE_H
 #include <QtSql/QSqlDatabase>
 #include <QVector>
+#include "bus.h"
 
 class Database
 {
@@ -16,13 +17,13 @@ public:
     void insertBus(Bus a);
     void removeLoc(QString locname);
 
-    QVector<QString> locations;
+    QStringList locations;
+    QStringList bus_types;
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:
     static Database* instance;
     Database();
-    ~Database();
     QSqlDatabase db;
     QString dbpath;
 };
