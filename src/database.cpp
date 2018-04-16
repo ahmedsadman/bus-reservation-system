@@ -57,14 +57,14 @@ void Database::createBusTable() {
 
 // create the ticket table
 void Database::createTicketTable() {
-    qDebug() << "Creating bus table";
+    qDebug() << "Creating Ticket";
     QSqlQuery query;
-    query.prepare("CREATE TABLE IF NOT EXISTS BUS (BUSNAME TEXT PRIMARY KEY, ORIGIN TEXT, DEST TEXT, TYPE TEXT)");
+    query.prepare("CREATE TABLE IF NOT EXISTS TICKET (PASSENGERNAME TEXT, BUSNAME TEXT, DATE TEXT, SEAT_NO INTEGER)");
 
     if (!query.exec())
         qDebug() << query.lastError().text();
     else
-        qDebug() << "table BUS created";
+        qDebug() << "Ticket table created";
 
 }
 
