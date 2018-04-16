@@ -59,6 +59,19 @@ void Database::createBusTable() {
 
 }
 
+// create the ticket table
+void Database::createTicketTable() {
+    qDebug() << "Creating bus table";
+    QSqlQuery query;
+    query.prepare("CREATE TABLE IF NOT EXISTS BUS (BUSNAME TEXT PRIMARY KEY, ORIGIN TEXT, DEST TEXT, TYPE TEXT)");
+
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    else
+        qDebug() << "table BUS created";
+
+}
+
 //Inserting Bus
 void Database::insertBus(Bus a) {
     QSqlQuery query;
@@ -73,6 +86,37 @@ void Database::insertBus(Bus a) {
     else
         {
             qDebug() << "Bus " << a.busname << " created";
+        }
+}
+
+//Removing Bus
+void Database::removeBus(QString busname) {
+    QSqlQuery query;
+    query.prepare("DELETE FROM BUS WHERE BUSNAME=?");
+    query.addBindValue(busname);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+    else
+        {
+            qDebug() << "Bus " << busname << " deleted";
+        }
+}
+
+//Edit Bus
+void Database::editBus(Bus a) {
+    QSqlQuery query;
+    query.prepare("UPDATE employees SET ORIGIN = ?, DEST = ?, TYPE = ? WHERE BUSNAME = ?;");
+    query.addBindValue(a.origin);
+    query.addBindValue(a.dest);
+    query.addBindValue(a.type);
+    query.addBindValue(a.busname);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+    else
+        {
+            qDebug() << "Bus " << a.busname << " edited";
         }
 }
 

@@ -10,10 +10,13 @@ public:
     void connect();
     void disconnect();
     void createBusTable();
+    void createTicketTable();
     void createLocTable();
     void insertLocation(QString locname);
     void getLocations();
     void insertBus(Bus a);
+    void removeBus(QString busname);
+    void editBus(Bus a);
     void removeLoc(QString locname);
 
     QVector<QString> locations;
