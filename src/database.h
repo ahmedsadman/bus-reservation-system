@@ -15,9 +15,9 @@ public:
     void createLocTable();
     void insertLocation(QString locname);
     void getLocations();
-    void insertBus(Bus a);
+    void insertBus(QString busname, QString origin, QString dest, QString type);
     void removeBus(QString busname);
-    void editBus(Bus a);
+    void editBus(QString busname, QString origin, QString dest, QString type);
     void removeLoc(QString locname);
 
     QStringList locations;

@@ -70,19 +70,19 @@ void Database::createTicketTable() {
 
 
 //Inserting Bus
-void Database::insertBus(Bus a) {
+void Database::insertBus(QString busname, QString origin, QString dest, QString type) {
     QSqlQuery query;
     query.prepare("INSERT INTO BUS VALUES(?, ?, ?, ?)");
-    query.addBindValue(a.busname);
-    query.addBindValue(a.origin);
-    query.addBindValue(a.dest);
-    query.addBindValue(a.type);
+    query.addBindValue(busname);
+    query.addBindValue(origin);
+    query.addBindValue(dest);
+    query.addBindValue(type);
 
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
     else
         {
-            qDebug() << "Bus " << a.busname << " created";
+            qDebug() << "Bus " << busname << " created";
         }
 }
 
@@ -101,19 +101,19 @@ void Database::removeBus(QString busname) {
 }
 
 //Edit Bus
-void Database::editBus(Bus a) {
+void Database::editBus(QString busname, QString origin, QString dest, QString type) {
     QSqlQuery query;
-    query.prepare("UPDATE employees SET ORIGIN = ?, DEST = ?, TYPE = ? WHERE BUSNAME = ?;");
-    query.addBindValue(a.origin);
-    query.addBindValue(a.dest);
-    query.addBindValue(a.type);
-    query.addBindValue(a.busname);
+    query.prepare("UPDATE BUS SET ORIGIN = ?, DEST = ?, TYPE = ? WHERE BUSNAME = ?;");
+    query.addBindValue(origin);
+    query.addBindValue(dest);
+    query.addBindValue(type);
+    query.addBindValue(busname);
 
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
     else
         {
-            qDebug() << "Bus " << a.busname << " edited";
+            qDebug() << "Bus " << busname << " edited";
         }
 }
 
