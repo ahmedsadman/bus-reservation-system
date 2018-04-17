@@ -68,6 +68,7 @@ void Database::createTicketTable() {
 
 }
 
+
 //Inserting Bus
 void Database::insertBus(Bus a) {
     QSqlQuery query;
@@ -142,7 +143,6 @@ void Database::insertLocation(QString locname) {
     else
         qDebug() << "location " << locname << " inserted";
 }
-
 
 
 // load location
