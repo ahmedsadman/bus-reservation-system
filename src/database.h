@@ -18,9 +18,10 @@ public:
     void removeBus(QString busname);
     void editBus(QString busname, QString origin, QString dest, QString type);
     void removeLoc(QString locname);
-
+    void getBuses();
     QStringList locations;
     QStringList bus_types;
+    QStringList buses;
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:

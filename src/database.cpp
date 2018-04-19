@@ -162,7 +162,19 @@ void Database::getLocations() {
         locations.append(query.value(0).toString());
 }
 
+// get bus list
+void Database::getBuses() {
+    QSqlQuery query;
+    buses.clear();
+    query.prepare("SELECT * FROM BUS");
 
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    while (query.next()) {
+        // do something
+    }
+}
 // delete a location record
 void Database::removeLoc(QString locname) {
     QSqlQuery query;
