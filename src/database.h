@@ -2,7 +2,6 @@
 #define DATABASE_H
 #include <QtSql/QSqlDatabase>
 #include <QVector>
-#include "bus.h"
 
 class Database
 {
