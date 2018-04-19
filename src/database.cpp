@@ -11,6 +11,9 @@ Database::Database()
     dbpath = QString("database.db");
     bus_types = (QStringList() << "AC" << "Non-AC");
     connect();
+    createBusTable();
+    createLocTable();
+    createTicketTable();
 }
 
 Database* Database::getInstance() {
@@ -134,6 +137,7 @@ void Database::createLocTable() {
 
 // insert location
 void Database::insertLocation(QString locname) {
+    qDebug() << "inserting started";
     QSqlQuery query;
     query.prepare("INSERT INTO LOCATIONS VALUES(?)");
     query.addBindValue(locname);
