@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     addbusdialog.cpp \
     addlocationdialog.cpp \
-    database.cpp
+    database.cpp \
+    bus.cpp
 
 HEADERS += \
         mainwindow.h \
     addbusdialog.h \
     addlocationdialog.h \
-    database.h
+    database.h \
+    bus.h
 
 FORMS += \
         mainwindow.ui \
