@@ -17,7 +17,7 @@ QString Bus::getBusname()
 };
 
 
-QString Bus::getOrigon()
+QString Bus::getOrigin()
 {
     return origin;
 

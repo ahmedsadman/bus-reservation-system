@@ -16,10 +16,10 @@ public:
     QString getOrigin();
     QString getDest();
     QString getType();
-    void setBusname();
-    void setOrigin();
-    void setDest();
-    void setType();
+    void setBusname(QString _busname);
+    void setOrigin(QString _origin);
+    void setDest(QString _dest);
+    void setType(QString _type);
     void updateBus();
 };
 
