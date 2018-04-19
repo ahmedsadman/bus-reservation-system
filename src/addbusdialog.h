@@ -15,12 +15,18 @@ class AddBusDialog : public QDialog
 public:
     explicit AddBusDialog(QWidget *parent = 0);
     ~AddBusDialog();
+    QString getName();
+    QString getType();
+    QString getOrigin();
+    QString getDest();
 
 private slots:
-    void on_pushButton_2_clicked();
+    void on_button_save_clicked();
 
 private:
     Ui::AddBusDialog *ui;
+    void showError(QString error);
+    bool validate();
 };
 
 #endif // ADDBUSDIALOG_H

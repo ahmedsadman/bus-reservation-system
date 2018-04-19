@@ -85,7 +85,13 @@ void MainWindow::on_btnAdd_bus_clicked()
 {
     AddBusDialog ab;
     ab.setModal(true);
-    ab.exec();
+
+    if (ab.exec() == QDialog::Accepted) {
+        qDebug() << ab.getName();
+        qDebug() << ab.getOrigin();
+        qDebug() << ab.getDest();
+        qDebug() << ab.getType();
+    }
 }
 
 // launch the window to add new locations
