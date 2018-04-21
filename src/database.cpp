@@ -172,9 +172,11 @@ void Database::getBuses() {
         qDebug() << "ERROR: " << query.lastError().text();
 
     while (query.next()) {
-        // do something
+        Bus *b = new Bus(query.value(0).toString(), query.value(1).toString(), query.value(2).toString(), query.value(3).toString());
+        buses.append(b);
     }
 }
+
 // delete a location record
 void Database::removeLoc(QString locname) {
     QSqlQuery query;
