@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "database.h"
 
 namespace Ui {
 class MainWindow;
@@ -26,10 +27,16 @@ private slots:
 
     void on_btnRemove_loc_clicked();
 
+    void on_btnRemove_bus_clicked();
+
+    void on_btnEdit_bus_clicked();
+
 private:
     Ui::MainWindow *ui;
+    Database *db;
     void MainWindow::setBusList();
     void MainWindow::setLocationList();
+    void MainWindow::setBusList_manage();
 };
 
 #endif // MAINWINDOW_H
