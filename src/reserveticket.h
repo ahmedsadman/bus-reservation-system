@@ -1,22 +1,22 @@
-#ifndef REVERSETICKET_H
-#define REVERSETICKET_H
+#ifndef RESERVETICKET_H
+#define RESERVETICKET_H
 
 #include <QDialog>
 
 namespace Ui {
-class ReverseTicket;
+class ReserveTicket;
 }
 
-class ReverseTicket : public QDialog
+class ReserveTicket : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ReverseTicket(QWidget *parent = 0);
-    ~ReverseTicket();
+    explicit ReserveTicket(QWidget *parent = 0);
+    ~ReserveTicket();
 
 private:
-    Ui::ReverseTicket *ui;
+    Ui::ReserveTicket *ui;
 };
 
-#endif // REVERSETICKET_H
+#endif // RESERVETICKET_H
