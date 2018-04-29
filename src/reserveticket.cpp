@@ -1,14 +1,14 @@
 #include "reserveticket.h"
-#include "ui_reverseticket.h"
+#include "ui_reserveticket.h"
 
-ReverseTicket::ReverseTicket(QWidget *parent) :
+ReserveTicket::ReserveTicket(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ReverseTicket)
+    ui(new Ui::ReserveTicket)
 {
     ui->setupUi(this);
 }
 
-ReverseTicket::~ReverseTicket()
+ReserveTicket::~ReserveTicket()
 {
     delete ui;
 }
