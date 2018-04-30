@@ -23,6 +23,7 @@ public:
     QStringList locations;
     QStringList bus_types;
     QVector<Bus*> buses;
+    QList<Bus> getBusByTripInfo(QString from, QString to);
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:

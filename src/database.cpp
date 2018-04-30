@@ -186,3 +186,28 @@ void Database::removeLoc(QString locname) {
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
 }
+
+// get the available bus based on user selected trip
+QList<Bus> Database::getBusByTripInfo(QString from, QString to) {
+    // incomplete function, more arguments would be added later
+    QList<Bus> b;
+    QSqlQuery query;
+
+    if (from == to) return b;
+
+    query.prepare("SELECT * FROM BUS WHERE ORIGIN = ? AND DEST = ?");
+    query.addBindValue(from);
+    query.addBindValue(to);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    qDebug() << "hi";
+
+    while (query.next()) {
+        Bus bus(query.value(0).toString(), query.value(1).toString(), query.value(2).toString(), query.value(3).toString());
+        b.append(bus);
+    }
+
+    return b;
+}

@@ -118,7 +118,7 @@
        <string>Date of Journey</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="button_load">
       <property name="geometry">
        <rect>
         <x>300</x>

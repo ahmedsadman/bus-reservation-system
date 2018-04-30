@@ -31,10 +31,13 @@ private slots:
 
     void on_btnEdit_bus_clicked();
 
+    void on_button_load_clicked();
+
 private:
     Ui::MainWindow *ui;
     Database *db;
     void MainWindow::setBusList();
+    void MainWindow::populateTripBus();
     void MainWindow::setLocationList();
     void MainWindow::setBusList_manage();
 };
