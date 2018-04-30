@@ -4,6 +4,7 @@
 #include "addlocationdialog.h"
 #include <QDebug>
 #include "database.h"
+#include "reserveticket.h"
 #include <string>
 using namespace std;
 
@@ -91,6 +92,10 @@ void MainWindow::on_busList_cellDoubleClicked(int row, int column)
     qDebug() << row << " " << column << " clicked";
     qDebug() << ui->busList->item(row, 0)->text();
     qDebug() << ui->busList->item(row, 1)->text();
+
+    ReserveTicket rs;
+    rs.setModal(true);
+    rs.exec();
 }
 
 
