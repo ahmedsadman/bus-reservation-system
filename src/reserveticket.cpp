@@ -20,7 +20,7 @@ ReserveTicket::~ReserveTicket()
 
 void ReserveTicket::showError(QString error) {
     QMessageBox er;
-    er.warning(this, "Seat selection", error);
+    er.warning(this, "Ticket", error);
 }
 
 void ReserveTicket::seatButtonClicked(QAbstractButton* b) {
@@ -63,4 +63,49 @@ void ReserveTicket::on_pushButton_reset_clicked()
     }
 
     ui->label_selectedSeats->setText("None");
+}
+
+QList<QString> ReserveTicket::getSelectedSeats() {
+    QList<QString> seats;
+
+    for (int i = 0; i < selectedSeats.size(); i++) {
+        seats.append(selectedSeats.at(i)->text());
+    }
+
+    return seats;
+}
+
+QString ReserveTicket::getPassengerName() {
+    return ui->lineEdit_passengerName->text();
+}
+
+QString ReserveTicket::getGender() {
+    return ui->comboBox_gender->currentText();
+}
+
+QString ReserveTicket::getPhoneNo() {
+    return ui->lineEdit_mobileNo->text();
+}
+
+void ReserveTicket::on_pushButton_confirm_clicked()
+{
+    if (validate()) {
+        QMessageBox ok;
+        ok.information(this, "Success", "Your ticket is reserved!");
+        ReserveTicket::accept();
+    }
+}
+
+bool ReserveTicket::validate() {
+    if (getPassengerName() == "" || getPhoneNo() == "") {
+        showError("Please fill up all the fields");
+        return false;
+    }
+
+    if (selectedSeats.isEmpty()) {
+        showError("Select at least one seat");
+        return false;
+    }
+
+    return true;
 }

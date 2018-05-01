@@ -64,8 +64,9 @@ void MainWindow::setBusList() {
 void MainWindow::populateTripBus() {
     QString from = ui->comboFrom->currentText();
     QString to = ui->comboTo->currentText();
+    QString type = ui->comboType->currentText();
 
-    QList<Bus> buses = db->getBusByTripInfo(from, to);
+    QList<Bus> buses = db->getBusByTripInfo(from, to, type);
 
     if (buses.isEmpty()) return;
 
@@ -95,16 +96,30 @@ void MainWindow::setBusList_manage() {
     }
 }
 
-// Signal slot for the "busList" table
+// opens the reserve ticket window
 void MainWindow::on_busList_cellDoubleClicked(int row, int column)
 {
-    qDebug() << row << " " << column << " clicked";
-    qDebug() << ui->busList->item(row, 0)->text();
-    qDebug() << ui->busList->item(row, 1)->text();
-
     ReserveTicket rs;
     rs.setModal(true);
-    rs.exec();
+
+    if (rs.exec() == QDialog::Accepted) {
+
+        // insert ticket data in database
+        QList<QString> seat_list = rs.getSelectedSeats();
+        QString pname = rs.getPassengerName();
+        QString gender = rs.getGender();
+        QString pno = rs.getPhoneNo();
+        QString from = ui->comboFrom->currentText();
+        QString to = ui->comboTo->currentText();
+        QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
+        QString bname = ui->busList->item(row, 0)->text();
+
+        for (int i = 0; i < seat_list.size(); i++) {
+            db->insertTicket(pname, gender, pno, bname, from, to, date, seat_list.at(i));
+        }
+
+        qDebug() << "ticket insertion complete";
+    }
 }
 
 
