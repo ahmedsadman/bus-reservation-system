@@ -184,3 +184,15 @@ void Database::removeLoc(QString locname) {
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
 }
+
+int Database::AvaliableSeat(QString BusName, QString date, QString time) {
+    qDebug() << "CHECKING AVALIABLE SEATS ";
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(SEAT_NO) FROM TICKET WHERE BUSNAME = ? AND DATE = ? AND TIME = ?");
+    int TakenSeat = query.value(0).toInt();
+    int availableSeat=30-TakenSeat;
+
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+
+}

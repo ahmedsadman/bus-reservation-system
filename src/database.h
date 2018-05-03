@@ -19,6 +19,7 @@ public:
     void editBus(QString busname, QString origin, QString dest, QString type);
     void removeLoc(QString locname);
     void getBuses();
+    int AvaliableSeat(QString BusName, QString date, QString time);
     QStringList locations;
     QStringList bus_types;
     QStringList buses;
