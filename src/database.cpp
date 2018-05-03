@@ -11,9 +11,9 @@ Database::Database()
     dbpath = QString("database.db");
     bus_types = (QStringList() << "AC" << "Non-AC");
     connect();
+    createTicketTable();
     createBusTable();
     createLocTable();
-    createTicketTable();
 }
 
 Database* Database::getInstance() {
@@ -60,17 +60,38 @@ void Database::createBusTable() {
 
 // create the ticket table
 void Database::createTicketTable() {
-    qDebug() << "Creating Ticket";
+    qDebug() << "Creating Ticket table";
     QSqlQuery query;
-    query.prepare("CREATE TABLE IF NOT EXISTS TICKET (PASSENGERNAME TEXT, BUSNAME TEXT, DATE TEXT, SEAT_NO INTEGER)");
+
+    query.prepare("CREATE TABLE IF NOT EXISTS TICKET (PASSENGERNAME TEXT, GENDER TEXT, PHONE_NO TEXT, BUSNAME TEXT, "
+                  "ORIGIN TEXT, DEST TEXT, JOURNEY_DATE TEXT, SEAT_NO TEXT)");
 
     if (!query.exec())
-        qDebug() << query.lastError().text();
+        qDebug() << "ERROR: " << query.lastError().text();
     else
         qDebug() << "Ticket table created";
 
 }
 
+// insert ticket
+void Database::insertTicket(QString pname, QString gender, QString mobno,
+                            QString bname, QString from, QString to, QString date, QString seat) {
+    QSqlQuery query;
+    query.prepare("INSERT INTO TICKET VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+    query.addBindValue(pname);
+    query.addBindValue(gender);
+    query.addBindValue(mobno);
+    query.addBindValue(bname);
+    query.addBindValue(from);
+    query.addBindValue(to);
+    query.addBindValue(date);
+    query.addBindValue(seat);
+
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    else
+        qDebug() << "Ticket inserted";
+}
 
 //Inserting Bus
 void Database::insertBus(QString busname, QString origin, QString dest, QString type) {
@@ -185,4 +206,30 @@ void Database::removeLoc(QString locname) {
 
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
+}
+
+// get the available bus based on user selected trip
+QList<Bus> Database::getBusByTripInfo(QString from, QString to, QString type) {
+    // incomplete function, more arguments would be added later
+    QList<Bus> b;
+    QSqlQuery query;
+
+    if (from == to) return b;
+
+    query.prepare("SELECT * FROM BUS WHERE ORIGIN IN (?, ?) AND DEST IN (?, ?) AND TYPE = ?");
+    query.addBindValue(from);
+    query.addBindValue(to);
+    query.addBindValue(from);
+    query.addBindValue(to);
+    query.addBindValue(type);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    while (query.next()) {
+        Bus bus(query.value(0).toString(), query.value(1).toString(), query.value(2).toString(), query.value(3).toString());
+        b.append(bus);
+    }
+
+    return b;
 }

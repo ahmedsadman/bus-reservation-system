@@ -14,6 +14,8 @@ public:
     void createTicketTable();
     void createLocTable();
     void insertLocation(QString locname);
+    void insertTicket(QString pname, QString gender, QString mobno,
+                      QString bname, QString from, QString to, QString date, QString seat);
     void getLocations();
     void insertBus(QString busname, QString origin, QString dest, QString type);
     void removeBus(QString busname);
@@ -23,6 +25,7 @@ public:
     QStringList locations;
     QStringList bus_types;
     QVector<Bus*> buses;
+    QList<Bus> getBusByTripInfo(QString from, QString to, QString type);
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:

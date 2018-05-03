@@ -4,7 +4,9 @@
 #include "addlocationdialog.h"
 #include <QDebug>
 #include "database.h"
+#include "reserveticket.h"
 #include <string>
+#include "bus.h"
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -48,22 +50,31 @@ void MainWindow::setLocationList() {
     ui->comboTo->insertItems(0, db->locations);
 }
 
-// Initiate the available buses based on user ticket choice (under Reservation tab)
+// Initiate the trip related bus table
 void MainWindow::setBusList() {
     QStringList labels;
-    ui->busList->setRowCount(1);
+    // ui->busList->setRowCount(1);
     ui->busList->setColumnCount(2);
 
     labels << tr("Bus Name") << tr("Seats Available");
     ui->busList->setHorizontalHeaderLabels(labels);
+}
 
-    // test data, actual function will be completed later
-    ui->busList->setItem(0, 0, new QTableWidgetItem("VIP"));
-    ui->busList->setItem(0, 1, new QTableWidgetItem("27"));
+// get user trip info, and show available bus
+void MainWindow::populateTripBus() {
+    QString from = ui->comboFrom->currentText();
+    QString to = ui->comboTo->currentText();
+    QString type = ui->comboType->currentText();
 
-    ui->busList->setRowCount(2);
-    ui->busList->setItem(1, 0, new QTableWidgetItem("Anabil"));
-    ui->busList->setItem(1, 1, new QTableWidgetItem("25"));
+    QList<Bus> buses = db->getBusByTripInfo(from, to, type);
+
+    if (buses.isEmpty()) return;
+
+    for (int i = 0; i < buses.size(); i++) {
+        ui->busList->setRowCount(i+1);
+        ui->busList->setItem(i, 0, new QTableWidgetItem(buses[i].getBusname()));
+        ui->busList->setItem(i, 1, new QTableWidgetItem("30"));
+    }
 }
 
 // populates all the bus data under Manage tab
@@ -85,12 +96,30 @@ void MainWindow::setBusList_manage() {
     }
 }
 
-// Signal slot for the "busList" table
+// opens the reserve ticket window
 void MainWindow::on_busList_cellDoubleClicked(int row, int column)
 {
-    qDebug() << row << " " << column << " clicked";
-    qDebug() << ui->busList->item(row, 0)->text();
-    qDebug() << ui->busList->item(row, 1)->text();
+    ReserveTicket rs;
+    rs.setModal(true);
+
+    if (rs.exec() == QDialog::Accepted) {
+
+        // insert ticket data in database
+        QList<QString> seat_list = rs.getSelectedSeats();
+        QString pname = rs.getPassengerName();
+        QString gender = rs.getGender();
+        QString pno = rs.getPhoneNo();
+        QString from = ui->comboFrom->currentText();
+        QString to = ui->comboTo->currentText();
+        QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
+        QString bname = ui->busList->item(row, 0)->text();
+
+        for (int i = 0; i < seat_list.size(); i++) {
+            db->insertTicket(pname, gender, pno, bname, from, to, date, seat_list.at(i));
+        }
+
+        qDebug() << "ticket insertion complete";
+    }
 }
 
 
@@ -171,4 +200,13 @@ void MainWindow::on_btnEdit_bus_clicked()
 
     if (ab.exec() == QDialog::Accepted)
         this->setBusList_manage();
+}
+
+// loads bus info based on user trip info
+void MainWindow::on_button_load_clicked()
+{
+    qDebug() << "Getting bus data";
+    ui->busList->clearContents();
+    ui->busList->setRowCount(0);
+    this->populateTripBus();
 }
