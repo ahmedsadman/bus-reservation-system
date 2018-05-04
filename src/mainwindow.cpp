@@ -113,9 +113,10 @@ void MainWindow::on_busList_cellDoubleClicked(int row, int column)
         QString to = ui->comboTo->currentText();
         QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
         QString bname = ui->busList->item(row, 0)->text();
+        QString time = ui->comboBox_time->currentText();
 
         for (int i = 0; i < seat_list.size(); i++) {
-            db->insertTicket(pname, gender, pno, bname, from, to, date, seat_list.at(i));
+            db->insertTicket(pname, gender, pno, bname, from, to, date, time, seat_list.at(i));
         }
 
         qDebug() << "ticket insertion complete";
