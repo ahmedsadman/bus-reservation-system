@@ -13,7 +13,10 @@ Bus::Bus(QString _busname, QString _origin, QString _dest, QString _type)
 QString Bus::getBusname()
 {
    return busname;
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 };
 
 

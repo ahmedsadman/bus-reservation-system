@@ -2,6 +2,7 @@
 #define DATABASE_H
 #include <QtSql/QSqlDatabase>
 #include <QVector>
+#include "bus.h"
 
 class Database
 {
@@ -13,16 +14,19 @@ public:
     void createTicketTable();
     void createLocTable();
     void insertLocation(QString locname);
+    void insertTicket(QString pname, QString gender, QString mobno,
+                      QString bname, QString from, QString to, QString date, QString seat);
     void getLocations();
     void insertBus(QString busname, QString origin, QString dest, QString type);
     void removeBus(QString busname);
     void editBus(QString busname, QString origin, QString dest, QString type);
     void removeLoc(QString locname);
     void getBuses();
-    int AvaliableSeat(QString BusName, QString date, QString time);
+    int AvaliableSeat(QString BusName, QString Origin, QString dest, QString date, QString time);
     QStringList locations;
     QStringList bus_types;
-    QStringList buses;
+    QVector<Bus*> buses;
+    QList<Bus> getBusByTripInfo(QString from, QString to, QString type);
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:
