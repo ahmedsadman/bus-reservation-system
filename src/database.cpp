@@ -208,7 +208,6 @@ void Database::removeLoc(QString locname) {
         qDebug() << "ERROR: " << query.lastError().text();
 }
 
-<<<<<<< HEAD
 int Database::AvaliableSeat(QString BusName, QString Origin, QString dest, QString date, QString time) {
     qDebug() << "CHECKING AVALIABLE SEATS ";
     QSqlQuery query;
@@ -219,7 +218,6 @@ int Database::AvaliableSeat(QString BusName, QString Origin, QString dest, QStri
     if (!query.exec())
         qDebug() << query.lastError().text();
 
-=======
 // get the available bus based on user selected trip
 QList<Bus> Database::getBusByTripInfo(QString from, QString to, QString type) {
     // incomplete function, more arguments would be added later
@@ -244,5 +242,4 @@ QList<Bus> Database::getBusByTripInfo(QString from, QString to, QString type) {
     }
 
     return b;
->>>>>>> upstream/master
 }
