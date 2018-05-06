@@ -209,6 +209,18 @@ void Database::removeLoc(QString locname) {
         qDebug() << "ERROR: " << query.lastError().text();
 }
 
+int Database::AvaliableSeat(QString BusName, QString Origin, QString dest, QString date, QString time) {
+    qDebug() << "CHECKING AVALIABLE SEATS ";
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(SEAT_NO) FROM TICKET WHERE BUSNAME = ? AND ORIGIN = ? AND DEST = ?AND DATE = ? AND TIME = ?");
+    int TakenSeat = query.value(0).toInt();
+    int availableSeat=30-TakenSeat;
+
+    if (!query.exec())
+        qDebug() << query.lastError().text();
+    return availableSeat;
+}
+
 // get the available bus based on user selected trip
 QList<Bus> Database::getBusByTripInfo(QString from, QString to, QString type) {
     // incomplete function, more arguments would be added later
