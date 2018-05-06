@@ -217,6 +217,7 @@ int Database::AvaliableSeat(QString BusName, QString Origin, QString dest, QStri
 
     if (!query.exec())
         qDebug() << query.lastError().text();
+    return availiableSeat;
 }
 
 // get the available bus based on user selected trip
