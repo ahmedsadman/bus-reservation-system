@@ -15,7 +15,7 @@ public:
     void createLocTable();
     void insertLocation(QString locname);
     void insertTicket(QString pname, QString gender, QString mobno,
-                      QString bname, QString from, QString to, QString date, QString seat);
+                      QString bname, QString from, QString to, QString date, QString time, QString seat);
     void getLocations();
     void insertBus(QString busname, QString origin, QString dest, QString type);
     void removeBus(QString busname);

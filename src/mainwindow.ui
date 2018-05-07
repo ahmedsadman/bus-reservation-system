@@ -18,7 +18,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-10</y>
       <width>741</width>
       <height>451</height>
      </rect>
@@ -140,7 +140,7 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>200</y>
+        <y>260</y>
         <width>71</width>
         <height>16</height>
        </rect>
@@ -160,7 +160,7 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>220</y>
+        <y>280</y>
         <width>221</width>
         <height>22</height>
        </rect>
@@ -180,9 +180,9 @@
       <property name="geometry">
        <rect>
         <x>340</x>
-        <y>50</y>
+        <y>60</y>
         <width>351</width>
-        <height>191</height>
+        <height>231</height>
        </rect>
       </property>
       <property name="editTriggers">
@@ -209,6 +209,58 @@
       <attribute name="horizontalHeaderStretchLastSection">
        <bool>true</bool>
       </attribute>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>200</y>
+        <width>47</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Time</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_time">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>220</y>
+        <width>221</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <item>
+       <property name="text">
+        <string>8:00 AM</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2:00 PM</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>5:00 PM</string>
+       </property>
+      </item>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -453,7 +505,7 @@
      <x>0</x>
      <y>0</y>
      <width>731</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMenu">

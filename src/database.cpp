@@ -64,7 +64,7 @@ void Database::createTicketTable() {
     QSqlQuery query;
 
     query.prepare("CREATE TABLE IF NOT EXISTS TICKET (PASSENGERNAME TEXT, GENDER TEXT, PHONE_NO TEXT, BUSNAME TEXT, "
-                  "ORIGIN TEXT, DEST TEXT, JOURNEY_DATE TEXT, SEAT_NO TEXT)");
+                  "ORIGIN TEXT, DEST TEXT, JOURNEY_DATE TEXT, TIME TEXT, SEAT_NO TEXT)");
 
     if (!query.exec())
         qDebug() << "ERROR: " << query.lastError().text();
@@ -75,9 +75,9 @@ void Database::createTicketTable() {
 
 // insert ticket
 void Database::insertTicket(QString pname, QString gender, QString mobno,
-                            QString bname, QString from, QString to, QString date, QString seat) {
+                            QString bname, QString from, QString to, QString date, QString time ,  QString seat) {
     QSqlQuery query;
-    query.prepare("INSERT INTO TICKET VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+    query.prepare("INSERT INTO TICKET VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
     query.addBindValue(pname);
     query.addBindValue(gender);
     query.addBindValue(mobno);
@@ -85,6 +85,7 @@ void Database::insertTicket(QString pname, QString gender, QString mobno,
     query.addBindValue(from);
     query.addBindValue(to);
     query.addBindValue(date);
+    query.addBindValue(time);
     query.addBindValue(seat);
 
     if (!query.exec())
