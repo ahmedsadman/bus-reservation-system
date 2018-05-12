@@ -65,15 +65,20 @@ void MainWindow::populateTripBus() {
     QString from = ui->comboFrom->currentText();
     QString to = ui->comboTo->currentText();
     QString type = ui->comboType->currentText();
+    QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
+    QString time = ui->comboBox_time->currentText();
 
     QList<Bus> buses = db->getBusByTripInfo(from, to, type);
 
     if (buses.isEmpty()) return;
 
     for (int i = 0; i < buses.size(); i++) {
+        QString busname = buses[i].getBusname();
+        int avSeat = db->AvaliableSeat(busname, from, to, date, time);
+
         ui->busList->setRowCount(i+1);
-        ui->busList->setItem(i, 0, new QTableWidgetItem(buses[i].getBusname()));
-        ui->busList->setItem(i, 1, new QTableWidgetItem("30"));
+        ui->busList->setItem(i, 0, new QTableWidgetItem(busname));
+        ui->busList->setItem(i, 1, new QTableWidgetItem(QString::number(avSeat)));
     }
 }
 
@@ -99,27 +104,31 @@ void MainWindow::setBusList_manage() {
 // opens the reserve ticket window
 void MainWindow::on_busList_cellDoubleClicked(int row, int column)
 {
+    QString from = ui->comboFrom->currentText();
+    QString to = ui->comboTo->currentText();
+    QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
+    QString bname = ui->busList->item(row, 0)->text();
+    QString time = ui->comboBox_time->currentText();
+
     ReserveTicket rs;
+    // disable already occupied seats
+    rs.allocateSeats(db->getTickets(bname, from, to, date, time));
     rs.setModal(true);
 
     if (rs.exec() == QDialog::Accepted) {
-
         // insert ticket data in database
         QList<QString> seat_list = rs.getSelectedSeats();
         QString pname = rs.getPassengerName();
         QString gender = rs.getGender();
         QString pno = rs.getPhoneNo();
-        QString from = ui->comboFrom->currentText();
-        QString to = ui->comboTo->currentText();
-        QString date = ui->dateEdit->date().toString("yyyy-MM-dd");
-        QString bname = ui->busList->item(row, 0)->text();
-        QString time = ui->comboBox_time->currentText();
+        
 
         for (int i = 0; i < seat_list.size(); i++) {
             db->insertTicket(pname, gender, pno, bname, from, to, date, time, seat_list.at(i));
         }
 
         qDebug() << "ticket insertion complete";
+        this->populateTripBus();
     }
 }
 

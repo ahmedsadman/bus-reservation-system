@@ -209,15 +209,23 @@ void Database::removeLoc(QString locname) {
         qDebug() << "ERROR: " << query.lastError().text();
 }
 
-int Database::AvaliableSeat(QString BusName, QString Origin, QString dest, QString date, QString time) {
+int Database::AvaliableSeat(QString busname, QString origin, QString dest, QString date, QString time) {
     qDebug() << "CHECKING AVALIABLE SEATS ";
     QSqlQuery query;
-    query.prepare("SELECT COUNT(SEAT_NO) FROM TICKET WHERE BUSNAME = ? AND ORIGIN = ? AND DEST = ?AND DATE = ? AND TIME = ?");
-    int TakenSeat = query.value(0).toInt();
-    int availableSeat=30-TakenSeat;
+    query.prepare("SELECT COUNT(SEAT_NO) FROM TICKET WHERE BUSNAME = ? AND ORIGIN = ? AND DEST = ? AND JOURNEY_DATE = ? AND TIME = ?");
+    //query.prepare("SELECT COUNT(SEAT_NO) FROM TICKET");
+    query.addBindValue(busname);
+    query.addBindValue(origin);
+    query.addBindValue(dest);
+    query.addBindValue(date);
+    query.addBindValue(time);
 
     if (!query.exec())
-        qDebug() << query.lastError().text();
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    query.next();
+    int TakenSeat = query.value(0).toInt();
+    int availableSeat = 30-TakenSeat;
     return availableSeat;
 }
 
@@ -245,4 +253,27 @@ QList<Bus> Database::getBusByTripInfo(QString from, QString to, QString type) {
     }
 
     return b;
+}
+
+// get all the tickets based on criteria
+QList<QString> Database::getTickets(QString busname, QString origin, QString dest, QString date, QString time) {
+    QList<QString> seats;
+    QSqlQuery query;
+
+    query.prepare("SELECT SEAT_NO FROM TICKET WHERE BUSNAME = ? AND ORIGIN = ? AND DEST = ? AND JOURNEY_DATE = ? AND TIME = ?");
+    query.addBindValue(busname);
+    query.addBindValue(origin);
+    query.addBindValue(dest);
+    query.addBindValue(date);
+    query.addBindValue(time);
+
+    if (!query.exec()) 
+        qDebug() << "ERROR: " << query.lastError().text();
+
+    while (query.next()) {
+        qDebug() << query.value(0).toString();
+        seats.append(query.value(0).toString());
+    }
+
+    return seats;
 }
