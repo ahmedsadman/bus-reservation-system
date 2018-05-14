@@ -11,6 +11,8 @@ ReserveTicket::ReserveTicket(QWidget *parent) :
     ui->seatButtonGroup->connect(ui->seatButtonGroup,
                                  SIGNAL(buttonClicked(QAbstractButton*)),
                                  this, SLOT(seatButtonClicked(QAbstractButton*)));
+
+
 }
 
 ReserveTicket::~ReserveTicket()
@@ -21,6 +23,16 @@ ReserveTicket::~ReserveTicket()
 void ReserveTicket::showError(QString error) {
     QMessageBox er;
     er.warning(this, "Ticket", error);
+}
+
+// disable the already occupied seats
+void ReserveTicket::allocateSeats(QList<QString> seats) {
+    QList<QAbstractButton *> list = ui->seatButtonGroup->buttons();
+    for (int i = 0; i < list.size(); i++) {
+        QAbstractButton *b = list.at(i);
+        int pos = seats.indexOf(b->text());
+        if (pos != -1) b->setDisabled(true);
+    }
 }
 
 void ReserveTicket::seatButtonClicked(QAbstractButton* b) {

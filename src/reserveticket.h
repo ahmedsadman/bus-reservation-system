@@ -19,6 +19,7 @@ public:
     QString getPassengerName();
     QString getGender();
     QString getPhoneNo();
+    void allocateSeats(QList<QString> seats);
 
 
 private slots:
