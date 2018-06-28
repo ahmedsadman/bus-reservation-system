@@ -33,6 +33,8 @@ private slots:
 
     void on_button_load_clicked();
 
+    void on_ticketShow_clicked();
+
 private:
     Ui::MainWindow *ui;
     Database *db;
@@ -40,6 +42,7 @@ private:
     void MainWindow::populateTripBus();
     void MainWindow::setLocationList();
     void MainWindow::setBusList_manage();
+    void MainWindow::setTicketsTab();
 };
 
 #endif // MAINWINDOW_H
