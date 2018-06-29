@@ -7,6 +7,7 @@
 #include "reserveticket.h"
 #include <string>
 #include "bus.h"
+#include <QtSql/QSqlQuery>
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -19,7 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setLocationList();
     this->setBusList_manage();
     ui->dateEdit->setDate(QDate::currentDate());
+    ui->dateEdit_2->setDate(QDate::currentDate());
     ui->comboType->insertItems(0, db->bus_types);
+    this->setTicketsTab();
 }
 
 MainWindow::~MainWindow()
@@ -46,8 +49,22 @@ void MainWindow::setLocationList() {
     // populate the From and To Comboboxes
     ui->comboFrom->clear();
     ui->comboFrom->insertItems(0, db->locations);
+
+    ui->comboFrom_2->clear();
+    ui->comboFrom_2->insertItems(0, db->locations);
+
     ui->comboTo->clear();
     ui->comboTo->insertItems(0, db->locations);
+
+    ui->comboTo_2->clear();
+    ui->comboTo_2->insertItems(0, db->locations);
+}
+
+void MainWindow::setTicketsTab() {
+    ui->ticketList->setColumnCount(3);
+    QStringList labels;
+    labels << tr("Seat No") << tr("Name") << tr("Phone No");
+    ui->ticketList->setHorizontalHeaderLabels(labels);
 }
 
 // Initiate the trip related bus table
@@ -58,6 +75,16 @@ void MainWindow::setBusList() {
 
     labels << tr("Bus Name") << tr("Seats Available");
     ui->busList->setHorizontalHeaderLabels(labels);
+
+    // set the list of buses in Tickets tab
+    ui->comboBusSelect->clear();
+
+    qDebug() << "settings buses in ticket tab";
+    db->getBuses();
+    for (int i = 0; i < db->buses.size(); i++) {
+        ui->comboBusSelect->insertItem(i, db->buses[i]->getBusname());
+    }
+
 }
 
 // get user trip info, and show available bus
@@ -219,4 +246,26 @@ void MainWindow::on_button_load_clicked()
     ui->busList->clearContents();
     ui->busList->setRowCount(0);
     this->populateTripBus();
+}
+
+// show all the tickets of the currently selected bus criteria (under Tickets tab)
+void MainWindow::on_ticketShow_clicked()
+{
+    QString busname = ui->comboBusSelect->currentText();
+    QString date = ui->dateEdit_2->date().toString("yyyy-MM-dd");
+    QString time = ui->comboBox_time_2->currentText();
+    QString from = ui->comboFrom_2->currentText();
+    QString to = ui->comboTo_2->currentText();
+    QSqlQuery result = db->getTicketDetails(busname, from, to, date, time);
+
+    int m = 0;
+    while (result.next()) {
+       ui->ticketList->setRowCount(m+1);
+       ui->ticketList->setItem(m, 0, new QTableWidgetItem(result.value(0).toString()));
+       ui->ticketList->setItem(m, 1, new QTableWidgetItem(result.value(1).toString()));
+       ui->ticketList->setItem(m, 2, new QTableWidgetItem(result.value(2).toString()));
+       ++m;
+    }
+
+
 }

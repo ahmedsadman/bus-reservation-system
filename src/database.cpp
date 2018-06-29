@@ -277,3 +277,19 @@ QList<QString> Database::getTickets(QString busname, QString origin, QString des
 
     return seats;
 }
+
+QSqlQuery Database::getTicketDetails(QString busname, QString origin, QString dest, QString date, QString time) {
+    QSqlQuery query;
+    query.prepare("SELECT SEAT_NO, PASSENGERNAME, PHONE_NO FROM TICKET "
+                  "WHERE BUSNAME = ? AND ORIGIN = ? AND DEST = ? AND JOURNEY_DATE = ? AND TIME = ?");
+
+    query.addBindValue(busname);
+    query.addBindValue(origin);
+    query.addBindValue(dest);
+    query.addBindValue(date);
+    query.addBindValue(time);
+
+    if (!query.exec())
+        qDebug() << "ERROR: " << query.lastError().text();
+    return query;
+}

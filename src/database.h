@@ -28,6 +28,7 @@ public:
     QVector<Bus*> buses;
     QList<Bus> getBusByTripInfo(QString from, QString to, QString type);
     QList<QString> getTickets(QString busname, QString origin, QString dest, QString date, QString time);
+    QSqlQuery getTicketDetails(QString busname, QString origin, QString dest, QString date, QString time);
     // void createBus(QString busname, QString origin, QString dest, QString type);
 
 private:
